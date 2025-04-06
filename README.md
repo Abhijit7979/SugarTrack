@@ -14,15 +14,6 @@ SugarTrack is a gamified research platform that helps users track their research
 - **Marketplace**: Exchange earned coins for rewards
 - **Community**: See how you compare with others on the leaderboard
 
-## AI Research Assistant
-
-The AI Research Assistant feature uses Groq's LLama 3.3 70B Versatile model to provide high-quality research assistance. You can use it to:
-
-- Explain complex concepts
-- Summarize research papers
-- Find relevant resources
-- Get help with research questions
-
 ### Implementation Details
 ## Setup
 
