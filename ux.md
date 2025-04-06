@@ -1,7 +1,6 @@
-# Levercast-Inspired UI Design for SugarTrack
+ UI Design for SugarTrack
 
-This document outlines the **User Interface Design Document (UIDD)** for **SugarTrack**, inspired by the layout structure and visual principles used in **Levercast**. The goal is to deliver an intuitive, gamified productivity tool for Chrome, emphasizing research motivation and reward mechanisms in a clean, dark-mode-friendly interface.
-
+This document outlines the **User Interface Design Document (UIDD)** for **SugarTrack**
 ---
 
 ## 🎨 Layout Structure
