@@ -49,3 +49,6 @@ pip install -r requirements.txt
 - Flask-Login: User authentication
 - Python-dotenv: Environment variable management
 
+# Entity Relationship Diagram 
+<img src="ERD.svg">
+
