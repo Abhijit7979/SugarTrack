@@ -33,31 +33,32 @@ Responses are streamed in real-time using Server-Sent Events (SSE) for a smoothe
 
 ## Setup
 
-1. Clone the repository
-2. Install dependencies: `pip install -r requirements.txt`
-3. Create a `.env` file with the following variables:
+  ### Step 1: setup the environment 💻
+```bash
+git clone https://github.com/Abhijit7979/SugarTrack.git
+conda create -n project_env python=3.9
+conda activate project_env
+pip install -r requirements.txt
+```
+
+### Step 2: Create a `.env` file with the following variables:
    ```
    FLASK_APP=app
    FLASK_ENV=development
    FLASK_SECRET_KEY=your_secret_key_here
-   GROQ_API_KEY=your_groq_api_key_here
    ```
-4. Run the application: `flask run`
+### Step 3 :Run the application: `flask run`
 
 ## Environment Variables
 
 - `FLASK_APP`: The Flask application to run
 - `FLASK_ENV`: The environment to run Flask in (development, production)
 - `FLASK_SECRET_KEY`: Secret key for Flask session
-- `GROQ_API_KEY`: API key for Groq LLM integration
+
 
 ## Dependencies
 
 - Flask: Web framework
 - Flask-Login: User authentication
-- Groq SDK: LLM integration
 - Python-dotenv: Environment variable management
 
-## License
-
-MIT
