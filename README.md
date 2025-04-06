@@ -10,7 +10,6 @@ SugarTrack is a gamified research platform that helps users track their research
 - **Time Tracking**: Track time spent on research websites
 - **Gamification**: Earn Sugar Coins for time spent researching
 - **Reward System**: Redeem coins for physical and digital rewards
-- **AI Research Assistant**: Get help with research tasks using Groq LLM
 - **Progress Tracking**: Set daily goals and track your progress
 - **Marketplace**: Exchange earned coins for rewards
 - **Community**: See how you compare with others on the leaderboard
@@ -25,15 +24,6 @@ The AI Research Assistant feature uses Groq's LLama 3.3 70B Versatile model to p
 - Get help with research questions
 
 ### Implementation Details
-
-The AI Research Assistant is implemented using:
-
-- Frontend: JavaScript streaming API for real-time responses
-- Backend: Flask route that proxies requests to Groq API
-- API: Groq SDK for Python
-
-Responses are streamed in real-time using Server-Sent Events (SSE) for a smoother user experience.
-
 ## Setup
 
   ### Step 1: setup the environment 💻
