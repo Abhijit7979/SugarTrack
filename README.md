@@ -1,4 +1,5 @@
-# SugarTrack - Gamified Research Platform
+# SugarTrack - Gamified Research Platform 
+### 418 hackathon hosted by Enigma under AEON 2025
 
 SugarTrack is a gamified research platform that helps users track their research time, earn rewards, and engage with a community of researchers.
 
