@@ -2,6 +2,9 @@
 
 SugarTrack is a gamified research platform that helps users track their research time, earn rewards, and engage with a community of researchers.
 
+- [Product Requirements Document](https://github.com/Abhijit7979/SugarTrack/blob/main/prd.md)
+- [Software Requirement Document](https://github.com/Abhijit7979/SugarTrack/blob/main/srd.md)
+- [User Interface Design Document](https://github.com/Abhijit7979/SugarTrack/blob/main/ux.md)
 ## Features
 
 - **Time Tracking**: Track time spent on research websites
