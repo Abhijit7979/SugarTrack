@@ -1,0 +1,92 @@
+{% extends "base.html" %} {% block title %}SugarTrack - Gamified Research
+Tracking{% endblock %} {% block content %}
+<div class="row align-items-center mt-5">
+  <div class="col-lg-6">
+    <h1 class="display-4 fw-bold">Make Research Tracking Fun</h1>
+    <p class="lead mb-4">
+      SugarTrack gamifies your research journey, turning study sessions into
+      rewarding achievements.
+    </p>
+    <div
+      class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-lg-start"
+    >
+      <a
+        href="{{ url_for('auth.signup') }}"
+        class="btn btn-primary btn-lg px-4 me-md-2"
+        >Get Started</a
+      >
+      <a
+        href="{{ url_for('auth.login') }}"
+        class="btn btn-outline-secondary btn-lg px-4"
+        >Login</a
+      >
+    </div>
+  </div>
+  <div class="col-lg-6 mt-5 mt-lg-0 text-center">
+    <div class="card border-0 shadow-lg">
+      <div class="card-body p-5">
+        <i
+          class="bi bi-graph-up-arrow text-primary"
+          style="font-size: 5rem"
+        ></i>
+        <h3 class="mt-4">Track Research, Earn Rewards</h3>
+        <p class="text-muted">
+          Monitor your study time, earn Sugar Coins, and redeem them for
+          exciting rewards.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5 pt-5">
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body text-center p-4">
+        <i
+          class="bi bi-stopwatch text-primary mb-3"
+          style="font-size: 2.5rem"
+        ></i>
+        <h4>Track Your Time</h4>
+        <p>
+          Easily monitor your research sessions with our intuitive tracking
+          tools.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body text-center p-4">
+        <i class="bi bi-coin text-primary mb-3" style="font-size: 2.5rem"></i>
+        <h4>Earn Sugar Coins</h4>
+        <p>
+          Convert your research time into Sugar Coins to spend in our
+          marketplace.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body text-center p-4">
+        <i class="bi bi-trophy text-primary mb-3" style="font-size: 2.5rem"></i>
+        <h4>Compete & Achieve</h4>
+        <p>Stay motivated with leaderboards, streaks, and achievements.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5 pt-3">
+  <div class="col-12 text-center">
+    <h2>Ready to Make Research Fun?</h2>
+    <p class="lead">
+      Join thousands of researchers who've gamified their study habits.
+    </p>
+    <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-lg mt-3"
+      >Create Your Account</a
+    >
+  </div>
+</div>
+{% endblock %}

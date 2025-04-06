@@ -1,0 +1,296 @@
+{% extends "base.html" %} {% block title %}AI Research Assistant - SugarTrack{%
+endblock %} {% block content %}
+<div class="row mb-4">
+  <div class="col-md-8">
+    <h1>AI Research Assistant</h1>
+    <p class="lead">
+      Get help with your research, summaries, or any questions you have.
+    </p>
+  </div>
+  <div class="col-md-4 text-end">
+    <div class="d-flex align-items-center justify-content-end">
+      <div class="me-3">
+        <strong class="fs-4">{{ current_user.coin_balance }}</strong>
+        <div class="text-muted">Sugar Coins</div>
+      </div>
+      <div
+        class="coin-icon bg-warning rounded-circle d-flex align-items-center justify-content-center"
+        style="width: 50px; height: 50px"
+      >
+        <i class="bi bi-coin fs-3"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    <h5 class="card-title mb-0">Chat with SugarTrack AI</h5>
+  </div>
+  <div class="card-body">
+    <div class="chat-container border rounded p-3 mb-3" id="chatMessages">
+      <div class="chat-message bot-message">
+        <p class="mb-0">
+          Hi there! I'm your SugarTrack AI assistant. I can help you with:
+        </p>
+        <ul class="mb-0">
+          <li>Researching topics</li>
+          <li>Explaining concepts</li>
+          <li>Summarizing information</li>
+          <li>Finding resources</li>
+        </ul>
+        <p class="mb-0 mt-2">What can I help you with today?</p>
+      </div>
+
+      <!-- Messages will be added here via JavaScript -->
+    </div>
+
+    <form id="chatForm" class="d-flex">
+      <input
+        type="text"
+        class="form-control me-2"
+        id="userInput"
+        placeholder="Type your message here..."
+        autocomplete="off"
+      />
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-send"></i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-6 mb-3">
+    <div class="card bg-light h-100">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-lightbulb"></i> Tips for Using the AI Assistant:
+        </h5>
+        <ul class="mb-0">
+          <li>Ask specific questions for better answers</li>
+          <li>Use it to help summarize complex topics</li>
+          <li>Request explanations of difficult concepts</li>
+          <li>Ask for help finding credible resources</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mb-3">
+    <div class="card bg-light h-100">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-stars"></i> Sample Questions:
+        </h5>
+        <div class="sample-questions">
+          <button
+            class="btn btn-outline-primary btn-sm mb-2 me-2 sample-question"
+          >
+            Explain recursive functions in Python
+          </button>
+          <button
+            class="btn btn-outline-primary btn-sm mb-2 me-2 sample-question"
+          >
+            How does blockchain technology work?
+          </button>
+          <button
+            class="btn btn-outline-primary btn-sm mb-2 me-2 sample-question"
+          >
+            Summarize the key points of machine learning
+          </button>
+          <button
+            class="btn btn-outline-primary btn-sm mb-2 me-2 sample-question"
+          >
+            Find resources for learning React
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatForm = document.getElementById("chatForm");
+    const userInput = document.getElementById("userInput");
+    const chatMessages = document.getElementById("chatMessages");
+    const sampleQuestions = document.querySelectorAll(".sample-question");
+
+    // Track conversation history
+    let conversationHistory = [
+      {
+        role: "system",
+        content:
+          "You are an AI research assistant for SugarTrack, a gamified research platform. Be helpful, accurate, and concise in answering research-related questions. Provide educational insights and resources based on user queries.",
+      },
+      {
+        role: "assistant",
+        content:
+          "Hi there! I'm your SugarTrack AI assistant. I can help you with researching topics, explaining concepts, summarizing information, and finding resources. What can I help you with today?",
+      },
+    ];
+
+    // Add event listener for the chat form submission
+    chatForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const userMessage = userInput.value.trim();
+      if (userMessage === "") return;
+
+      // Add user message to chat
+      addMessage(userMessage, "user");
+
+      // Add user message to conversation history
+      conversationHistory.push({
+        role: "user",
+        content: userMessage,
+      });
+
+      // Clear input field
+      userInput.value = "";
+
+      // Show typing indicator
+      showTypingIndicator();
+
+      // Call the backend API to get response from Groq
+      fetch("/api/chat/groq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: conversationHistory,
+        }),
+      })
+        .then((response) => {
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = "";
+          let responseText = "";
+
+          removeTypingIndicator();
+          const messageDiv = document.createElement("div");
+          messageDiv.classList.add("chat-message", "bot-message");
+          messageDiv.innerHTML = `<p class="mb-0"></p>`;
+          chatMessages.appendChild(messageDiv);
+          const messageParagraph = messageDiv.querySelector("p");
+
+          return new ReadableStream({
+            start(controller) {
+              function push() {
+                reader
+                  .read()
+                  .then(({ done, value }) => {
+                    if (done) {
+                      controller.close();
+                      return;
+                    }
+
+                    buffer += decoder.decode(value, { stream: true });
+
+                    // Process any complete content
+                    const chunks = buffer.split("\n\n");
+                    buffer = chunks.pop(); // Keep the last incomplete chunk in buffer
+
+                    for (const chunk of chunks) {
+                      if (chunk.startsWith("data: ")) {
+                        try {
+                          const data = JSON.parse(chunk.substring(6));
+                          if (
+                            data.choices &&
+                            data.choices[0] &&
+                            data.choices[0].delta &&
+                            data.choices[0].delta.content
+                          ) {
+                            const content = data.choices[0].delta.content;
+                            responseText += content;
+                            messageParagraph.textContent = responseText;
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                          }
+                        } catch (e) {
+                          console.error("Error parsing JSON:", e);
+                        }
+                      }
+                    }
+
+                    controller.enqueue(value);
+                    push();
+                  })
+                  .catch((err) => {
+                    console.error("Error reading stream:", err);
+                    controller.error(err);
+                  });
+              }
+
+              push();
+            },
+          });
+        })
+        .then(() => {
+          // Add bot response to conversation history
+          conversationHistory.push({
+            role: "assistant",
+            content: document.querySelector(".bot-message:last-child p")
+              .textContent,
+          });
+
+          // Scroll to bottom of chat
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          removeTypingIndicator();
+          addMessage(
+            "I'm sorry, there was an error processing your request. Please try again later.",
+            "bot"
+          );
+        });
+    });
+
+    // Sample question buttons
+    sampleQuestions.forEach((button) => {
+      button.addEventListener("click", function () {
+        userInput.value = this.textContent;
+        userInput.focus();
+      });
+    });
+
+    // Function to add a message to the chat
+    function addMessage(message, sender) {
+      const messageDiv = document.createElement("div");
+      messageDiv.classList.add("chat-message");
+
+      if (sender === "user") {
+        messageDiv.classList.add("user-message");
+      } else {
+        messageDiv.classList.add("bot-message");
+      }
+
+      messageDiv.innerHTML = `<p class="mb-0">${message}</p>`;
+      chatMessages.appendChild(messageDiv);
+
+      // Scroll to bottom of chat
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Show typing indicator
+    function showTypingIndicator() {
+      const typingDiv = document.createElement("div");
+      typingDiv.id = "typingIndicator";
+      typingDiv.classList.add("chat-message", "bot-message");
+      typingDiv.innerHTML =
+        '<p class="mb-0"><em>SugarTrack AI is typing...</em></p>';
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Remove typing indicator
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById("typingIndicator");
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+  });
+</script>
+{% endblock %}
