@@ -1,0 +1,151 @@
+{% extends "base.html" %} {% block title %}Daily Summary - SugarTrack{% endblock
+%} {% block content %}
+
+<div class="row mb-4">
+  <div class="col-md-8">
+    <h1>Daily Research Summary</h1>
+    <p class="lead">
+      Write a summary of what you learned today to reinforce your knowledge and
+      earn Sugar Coins.
+    </p>
+  </div>
+  <div class="col-md-4 text-end">
+    <div class="d-flex align-items-center justify-content-end">
+      <div class="me-3">
+        <strong class="fs-4">{{ current_user.coin_balance }}</strong>
+        <div class="text-muted">Sugar Coins</div>
+      </div>
+      <div
+        class="coin-icon bg-warning rounded-circle d-flex align-items-center justify-content-center"
+        style="width: 50px; height: 50px"
+      >
+        <i class="bi bi-coin fs-3"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header bg-primary text-white">
+    <h5 class="card-title mb-0">What Did You Learn Today?</h5>
+  </div>
+  <div class="card-body">
+    <form method="POST" action="{{ url_for('main.summary') }}">
+      <div class="mb-3">
+        <label for="summary" class="form-label"
+          >Summarize your research in your own words (minimum 100 words):</label
+        >
+        <textarea
+          class="form-control"
+          id="summary"
+          name="summary"
+          rows="8"
+          required
+          minlength="100"
+          placeholder="Today I researched about..."
+        ></textarea>
+        <div class="form-text text-muted">
+          <span id="wordCount">0</span> words (minimum 100 required)
+        </div>
+      </div>
+
+      <div class="form-check mb-3">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="generateQuiz"
+          name="generateQuiz"
+          checked
+        />
+        <label class="form-check-label" for="generateQuiz">
+          Generate a quiz based on my summary to earn extra coins
+        </label>
+      </div>
+
+      <div class="d-grid gap-2 col-md-6 mx-auto">
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          id="submitButton"
+          disabled
+        >
+          Submit Summary & Generate Quiz
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <div class="card bg-light h-100">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-lightbulb"></i> Tips for Effective Summaries:
+        </h5>
+        <ul class="mb-0">
+          <li>Focus on the main concepts you learned</li>
+          <li>Explain ideas in your own words</li>
+          <li>Include examples that help you understand the topic</li>
+          <li>Note any questions you still have about the subject</li>
+          <li>Connect new information to things you already know</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mb-3">
+    <div class="card bg-light h-100">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-graph-up"></i> Benefits of Daily Summaries:
+        </h5>
+        <ul class="mb-0">
+          <li>Reinforces your learning through active recall</li>
+          <li>Helps identify knowledge gaps</li>
+          <li>Creates a personal reference for future review</li>
+          <li>Improves your ability to communicate concepts</li>
+          <li>Earns you Sugar Coins!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const summaryTextarea = document.getElementById("summary");
+    const wordCountDisplay = document.getElementById("wordCount");
+    const submitButton = document.getElementById("submitButton");
+    const minWords = 100;
+
+    function countWords(text) {
+      return text.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    function updateWordCount() {
+      const text = summaryTextarea.value;
+      const count = countWords(text);
+      wordCountDisplay.textContent = count;
+
+      // Enable or disable submit button based on word count
+      if (count >= minWords) {
+        submitButton.disabled = false;
+      } else {
+        submitButton.disabled = true;
+      }
+
+      // Add visual feedback
+      if (count >= minWords) {
+        wordCountDisplay.className = "text-success";
+      } else {
+        wordCountDisplay.className = "text-danger";
+      }
+    }
+
+    // Add event listeners
+    summaryTextarea.addEventListener("input", updateWordCount);
+    updateWordCount(); // Initial count
+  });
+</script>
+{% endblock %}

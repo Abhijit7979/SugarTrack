@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block title %}SugarTrack - Gamified Research
+Tracking{% endblock %} {% block content %}
+<div class="row align-items-center min-vh-75">
+  <div class="col-md-6">
+    <h1 class="display-4 fw-bold">Make Learning Online Fun & Rewarding</h1>
+    <p class="lead">
+      SugarTrack gamifies your online research experience by tracking productive
+      website usage, quizzing you on what you've learned, and rewarding you with
+      Sugar Coins for real-world perks.
+    </p>
+    <div class="d-grid gap-2 d-md-flex mt-4">
+      <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-lg"
+        >Get Started</a
+      >
+      <a
+        href="{{ url_for('auth.login') }}"
+        class="btn btn-outline-secondary btn-lg"
+        >Log In</a
+      >
+    </div>
+  </div>
+  <div class="col-md-6 text-center">
+    <img
+      src="{{ url_for('static', filename='images/hero-image.png') }}"
+      class="img-fluid"
+      alt="SugarTrack Dashboard"
+      onerror="this.src='https://via.placeholder.com/600x400?text=SugarTrack'"
+    />
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-12 text-center">
+    <h2>How It Works</h2>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-stopwatch fs-1 text-primary"></i>
+        <h3 class="card-title">Track Research Time</h3>
+        <p class="card-text">
+          Set daily goals and track time spent on productive websites. Earn
+          Sugar Coins for every 30 minutes of focused learning.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-journal-text fs-1 text-primary"></i>
+        <h3 class="card-title">Summarize & Quiz</h3>
+        <p class="card-text">
+          Write daily summaries of what you've learned and take AI-generated
+          quizzes to reinforce your knowledge and earn more coins.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-shop fs-1 text-primary"></i>
+        <h3 class="card-title">Redeem Rewards</h3>
+        <p class="card-text">
+          Spend your Sugar Coins on real-world rewards like hackathon passes,
+          branded swag, and mentorship sessions.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-12 text-center">
+    <h2>Ready to Level Up Your Learning?</h2>
+    <p class="lead">
+      Join SugarTrack today and transform your online research into a rewarding
+      experience.
+    </p>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+      <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-lg"
+        >Sign Up Now</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}
